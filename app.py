@@ -51,6 +51,9 @@ def signup():
         #give a response to the users
         return jsonify({"message" : "user registered successfully"})
     
+
+
+    
 import pymysql.cursors
 # below is the sign in api endpoint
 @app.route("/api/signin", methods = ["POST"])
@@ -84,6 +87,44 @@ def signin():
             # if the user is there, take the details of the user and store them onto a variable and return a message of success to the user.
             user = cursor.fetchone()
             return jsonify({"message" : "Login a success","user": user})
+
+
+# create a route that is able to add the products all the way to the data base
+
+
+
+@app.route("/api/products_details", methods=["POST"])
+def products_details():
+    if request.method == "POST":
+        #get the details passed from the postman
+        product_name = request.form["product_name"]
+        product_description = request.form["product_description"]
+        product_cost = request.form["product_cost"]
+        product_photo= request.form["product_photo"]
+        product_category = request.form["product_category"]
+
+        # create a connection to mysql database by the use of pymysql module
+        connection = pymysql.connect(host="localhost", password="",user="root", database="sokogarden")
+
+        #create a cursor
+        cursor = connection.cursor()
+        
+        
+
+        #structure the sql query for insert
+        sql = "insert into product_details( product_name, product_description, product_cost, product_photo, product_category) values (%s, %s, %s, %s, %s)"
+
+        # a tuple to hold all  data available on the variables
+        data = (product_name, product_description, product_cost, product_photo, product_category)
+
+        # by use of a cursor, execute the sql query as it replace the placeholder with the actual values
+        cursor.execute(sql, data)
+
+        #commit/complete the changes to the database
+        connection.commit()
+
+        #give a response to the users
+        return jsonify({"message" : "Product added successfully"})
 
 
 
