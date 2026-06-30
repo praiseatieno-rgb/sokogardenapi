@@ -93,8 +93,8 @@ def signin():
 
 
 
-@app.route("/api/products_details", methods=["POST"])
-def products_details():
+@app.route("/api/addproduct", methods=["POST"])
+def addproducts():
     if request.method == "POST":
         #get the details passed from the postman
         product_name = request.form["product_name"]
