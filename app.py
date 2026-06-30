@@ -3,9 +3,14 @@ from flask import *
 import pymysql
 #its a python module that enables to create a connection to mysql database
 
+import os
+
+
 # create an app
 app = Flask(__name__)
 
+# below we confirgure where the product image shall be saved
+app.config['UPLOAD_FOLDER'] = 'static/images'
 
 # define the signup/register ulr endpoint
 @app.route("/api/signup", methods=["POST"])
@@ -100,8 +105,17 @@ def addproducts():
         product_name = request.form["product_name"]
         product_description = request.form["product_description"]
         product_cost = request.form["product_cost"]
-        product_photo= request.form["product_photo"]
+        product_photo= request.files["product_photo"]
         product_category = request.form["product_category"]
+
+        # since the product is a type of a file, we shall extract the name of the product and that name shall be stored in the data base but the photo product shall be stored into the static/images folder
+        filename = product_photo.filename
+
+        # specify where the image will be saved
+        photo_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+
+        # save the image
+        product_photo.save(photo_path)
 
         # create a connection to mysql database by the use of pymysql module
         connection = pymysql.connect(host="localhost", password="",user="root", database="sokogarden")
@@ -115,7 +129,7 @@ def addproducts():
         sql = "insert into product_details( product_name, product_description, product_cost, product_photo, product_category) values (%s, %s, %s, %s, %s)"
 
         # a tuple to hold all  data available on the variables
-        data = (product_name, product_description, product_cost, product_photo, product_category)
+        data = (product_name, product_description, product_cost, filename, product_category)
 
         # by use of a cursor, execute the sql query as it replace the placeholder with the actual values
         cursor.execute(sql, data)
