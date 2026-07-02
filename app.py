@@ -23,7 +23,7 @@ def signup():
         phone = request.form["phone"]
 
         # create a connection to mysql database by the use of pymysql module
-        connection = pymysql.connect(host="localhost", password="",user="root", database="sokogarden")
+        connection = pymysql.connect(host="mysql-onyangopa.alwaysdata.net", password="PAOs@2025",user="onyangopa", database="onyangopa_sokogarden")
 
         #create a cursor
         cursor = connection.cursor()
@@ -69,7 +69,7 @@ def signin():
         password = request.form["password"]
 
         #create a connecton to the DB
-        connection = pymysql.connect(host="localhost", password="", user="root", database="sokogarden")
+        connection = pymysql.connect(host="mysql-onyangopa.alwaysdata.net", password="PAOs@2025",user="onyangopa", database="onyangopa_sokogarden")
 
         #create a cursor
         cursor = connection.cursor(pymysql.cursors.DictCursor)
@@ -118,7 +118,7 @@ def addproducts():
         product_photo.save(photo_path)
 
         # create a connection to mysql database by the use of pymysql module
-        connection = pymysql.connect(host="localhost", password="",user="root", database="sokogarden")
+        connection = pymysql.connect(host="mysql-onyangopa.alwaysdata.net", password="PAOs@2025",user="onyangopa", database="onyangopa_sokogarden")
 
         #create a cursor
         cursor = connection.cursor()
@@ -147,7 +147,7 @@ def addproducts():
 def get_product_details():
     if request.method == "GET":
         # create a connection to the DB
-        connection = pymysql.connect(host="localhost", password="",user="root", database="sokogarden")
+        connection = pymysql.connect(host="mysql-onyangopa.alwaysdata.net", password="PAOs@2025",user="onyangopa", database="onyangopa_sokogarden")
 
         # below is our cursor
         cursor = connection.cursor(pymysql.cursors.DictCursor)
@@ -239,4 +239,4 @@ def mpesa_payment():
 
 
 # run the application
-app.run(debug= True)
+# app.run(debug= True)
